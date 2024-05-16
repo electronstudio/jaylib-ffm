@@ -35,6 +35,23 @@
                     </configuration>
                 </plugin>
 
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.1</version>
+                    <configuration>
+                        <archive>
+                            <index>true</index>
+                            <manifest>
+                                <addClasspath>true</addClasspath>
+                                <mainClass>uk.co.electronstudio.Bunnymark</mainClass>
+                            </manifest>
+
+                        </archive>
+                    </configuration>
+                </plugin>
+
+
             </plugins>
         </pluginManagement>
     </build>

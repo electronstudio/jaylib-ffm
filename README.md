@@ -22,7 +22,7 @@ to load the external file /usr/lib/libraylib.so.
 
 ## Building
 
-
+    raylib_parser --input /usr/local/include/raylib.h --output raylib_api.json --format JSON
     python3.12 generate.py
     jextract -l :./libraylib.so --output src/main/java/ --target-package com.raylib.jextract /usr/local/include/raylib.h
 

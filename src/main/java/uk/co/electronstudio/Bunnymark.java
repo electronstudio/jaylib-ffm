@@ -5,19 +5,14 @@ import com.raylib.jextract.Vector2;
 
 import java.lang.foreign.*;
 
-import static com.raylib.Raylib.initWindow;
-import static com.raylib.jextract.raylib_h.*;
+import static com.raylib.Raylib.*;
+
 
 
 
 public class Bunnymark {
 
-
-
-
     static int MAX_BUNNIES    =    500000 ;
-
-
 
     static class Bunny {
         Vec2 position = new Vec2();
@@ -31,14 +26,11 @@ public class Bunnymark {
     }
 
 
-
     public static void main(String[] args) {
         System.out.println("Hello world!");
 
 
         try (Arena arena = Arena.ofConfined()) {
-
-
 
                 System.out.println(System.getProperty("java.vm.name"));
                 System.out.println(System.getProperty("java.vm.vendor"));
@@ -51,7 +43,7 @@ public class Bunnymark {
                 initWindow(screenWidth, screenHeight,  "raylib [textures] example - bunnymark");
 
                 // Load bunny texture
-                var texBunny = LoadTexture(arena, arena.allocateFrom(Util.extractFileFromResources("wabbit_alpha",".png")));
+                var texBunny = loadTexture(Util.extractFileFromResources("wabbit_alpha",".png"));
 
                 Bunny[] bunnies = new Bunny[MAX_BUNNIES];
                 for (int i=0; i < MAX_BUNNIES; i++){
@@ -60,28 +52,28 @@ public class Bunnymark {
 
                 int bunniesCount = 0;           // Bunnies counter
 
-                SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+                setTargetFPS(60);               // Set our game to run at 60 frames-per-second
                 //--------------------------------------------------------------------------------------
 
                 // Main game loop
-                while (!WindowShouldClose())    // Detect window close button or ESC key
+                while (!windowShouldClose())    // Detect window close button or ESC key
                 {
                     // Update
                     //----------------------------------------------------------------------------------
-                    if (IsMouseButtonDown(0))
+                    if (isMouseButtonDown(0))
                     {
                         // Create more bunnies
                         for (int i = 0; i < 100; i++)
                         {
                             if (bunniesCount < MAX_BUNNIES)
                             {
-                                bunnies[bunniesCount].position.x = Vector2.x(GetMousePosition(arena));
-                                bunnies[bunniesCount].position.y = Vector2.y(GetMousePosition(arena));
-                                bunnies[bunniesCount].speed.x = (float)(GetRandomValue(-250, 250)/60.0f);
-                                bunnies[bunniesCount].speed.y = (float)(GetRandomValue(-250, 250)/60.0f);
-                                bunnies[bunniesCount].color = new Color((byte)GetRandomValue(50, 240),
-                                        (byte)GetRandomValue(80, 240),
-                                        (byte)GetRandomValue(100, 240), (byte)255 );
+                                bunnies[bunniesCount].position.x = Vector2.x(getMousePosition());
+                                bunnies[bunniesCount].position.y = Vector2.y(getMousePosition());
+                                bunnies[bunniesCount].speed.x = (float)(getRandomValue(-250, 250)/60.0f);
+                                bunnies[bunniesCount].speed.y = (float)(getRandomValue(-250, 250)/60.0f);
+                                bunnies[bunniesCount].color = new Color((byte)getRandomValue(50, 240),
+                                        (byte)getRandomValue(80, 240),
+                                        (byte)getRandomValue(100, 240), (byte)255 );
                                 bunniesCount++;
                             }
                         }
@@ -108,31 +100,31 @@ public class Bunnymark {
 
                     // Draw
                     //----------------------------------------------------------------------------------
-                    BeginDrawing();
+                    beginDrawing();
 
                     var black = new com.raylib.Color((byte)0,(byte)0,(byte)0,(byte)255);
                     var white = new com.raylib.Color((byte)255,(byte)255,(byte)255,(byte)255);
-                    ClearBackground(white.memorySegment );
+                    clearBackground(white.memorySegment );
 
                     for (int i = 0; i < bunniesCount; i++)
                     {
-                        DrawTexture(texBunny, (int)bunnies[i].position.x, (int)bunnies[i].position.y, bunnies[i].color.memorySegment);
+                        drawTexture(texBunny, (int)bunnies[i].position.x, (int)bunnies[i].position.y, bunnies[i].color.memorySegment);
                     }
 
-                    DrawRectangle(0, 0, screenWidth, 40, black.memorySegment);
-                    DrawText(arena.allocateFrom("bunnies: "+bunniesCount), 120, 10, 20, white.memorySegment);
+                    drawRectangle(0, 0, screenWidth, 40, black.memorySegment);
+                    drawText("bunnies: "+bunniesCount, 120, 10, 20, white.memorySegment);
 
-                    DrawFPS(10, 10);
+                    drawFPS(10, 10);
 
-                    EndDrawing();
+                    endDrawing();
 
                 }
 
 
 
-                UnloadTexture(texBunny);
+                unloadTexture(texBunny);
 
-                CloseWindow();
+                closeWindow();
 
 
 
