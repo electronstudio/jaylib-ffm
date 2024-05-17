@@ -10,12 +10,13 @@ Not production ready.  Please test, report what doesn't work and add what is mis
 * Requires Java 22+
 * Faster than JNI, Jaylib1, or any other binding
 
-The Java FFI structs are in com.raylib.jextract.* The functions are in com.raylib.jextract.raylib_h.  They are not
+The Java FFI structs are in [com.raylib.jextract.*](https://electronstudio.github.io/jaylib2/com/raylib/jextract/package-summary.html)
+The functions are in [com.raylib.jextract.raylib_h](https://electronstudio.github.io/jaylib2/com/raylib/jextract/raylib_h.html).  They are not
 pleasant to use, so we are writing wrappers for them.
 
-The wrapped structs are in com.raylib.*.
+The wrapped structs are in [com.raylib.*](https://electronstudio.github.io/jaylib2/com/raylib/package-summary.html).
 
-The wrapped functions are in com.raylib.Raylib.
+The wrapped functions are in [com.raylib.Raylib](https://electronstudio.github.io/jaylib2/com/raylib/Raylib.html).
 
 Automatic conversion for pointer types is still TODO.
 
