@@ -37,21 +37,21 @@
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.4.1</version>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                     <configuration>
-                        <archive>
-                            <index>true</index>
-                            <manifest>
-                                <addClasspath>true</addClasspath>
-                                <mainClass>uk.co.electronstudio.Bunnymark</mainClass>
-                            </manifest>
-
-                        </archive>
+                        <additionalOptions>
+                            <additionalOption>-Xdoclint:none</additionalOption>
+                        </additionalOptions>
                     </configuration>
                 </plugin>
-
-
             </plugins>
         </pluginManagement>
     </build>

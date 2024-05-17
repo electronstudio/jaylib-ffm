@@ -5,7 +5,7 @@ import com.raylib.*;
 
 
 import static com.raylib.Raylib.*;
-import static com.raylib.jextract.raylib_h.CAMERA_ORBITAL;
+import static com.raylib.Raylib.CameraMode.CAMERA_ORBITAL;
 
 
 public class Test {
@@ -34,7 +34,7 @@ public class Test {
         unloadImage(image);
 
         while(!windowShouldClose()){
-            updateCamera(camera, CAMERA_ORBITAL()); //fixme
+            updateCamera(camera, CAMERA_ORBITAL); //fixme
             beginDrawing();
             clearBackground(RAYWHITE);
             beginMode3D(camera);

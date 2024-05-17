@@ -75,7 +75,7 @@ class Field:
 
 
 class Function:
-    def __init__(self, name, return_type, description="", params=[]):
+    def __init__(self, name, return_type, description, params=[]):
         self.name = name
         self.java_name = name[0].lower() + name[1:]
         if return_type in aliases:
@@ -112,11 +112,12 @@ template = environment.get_template("struct.java")
 
 for struct in data['structs']:
     struct_name = struct['name']
+    struct_description = struct['description']
     fields = []
     for field in struct['fields']:
         fields.append(Field(field['name'], field['type'], field['description']))
 
-    content = template.render(struct_name=struct_name, fields=fields)
+    content = template.render(struct_name=struct_name, fields=fields, struct_description=struct_description)
     with open("src/main/java/com/raylib/" + struct_name + ".java", "w") as f:
         f.write(content)
 
@@ -126,10 +127,10 @@ for function in data['functions']:
     try:
         if 'params' in function:
             for param in function['params']:
-                params.append(Field(param['name'], param['type']))
+                params.append(Field(param['name'], param['type'], ""))
         functions.append(Function(function['name'], function['returnType'], function['description'], params))
     except Exception as e:
-        print(f"WARNING: skipping function {function['name']} {e}")
+        print(f"WARNING: skipping function {function['name']} because {e}")
 
 with open("src/main/java/com/raylib/Raylib.java", "w") as f:
     f.write(environment.get_template("Raylib.java").render(functions=functions, struct_names=struct_names, enums=data['enums']))
