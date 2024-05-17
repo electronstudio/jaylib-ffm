@@ -23,6 +23,14 @@ public class {{ struct_name }} {
     }
 
     /**
+     * Construct with your owm memory allocator and fields not initialized
+     */
+    public {{ struct_name }}(Arena arena) {
+        memorySegment = com.raylib.jextract.{{ struct_name }}.allocate(arena);
+    }
+
+
+    /**
      * Construct by wrapping around an already allocated MemorySegment, perhaps from another object
      */
     public {{ struct_name }}(MemorySegment memorySegment){
@@ -38,6 +46,21 @@ public class {{ struct_name }} {
         {% endfor %}
         ){
         memorySegment = com.raylib.jextract.{{ struct_name }}.allocate(Arena.ofAuto());
+
+        {% for field in fields %}
+        {{ field.setter }}({{ field.name }});
+        {% endfor %}
+    }
+
+    /**
+     * Construct with your own memory allocator and fields initialized as specified {% for field in fields %}
+     * @param  {{ field.name }} {{ field.description }} {% endfor %}
+     */
+    public {{ struct_name }}( Arena arena,
+        {% for field in fields %} {{ field.java_type }} {{ field.name }}{{ ", " if not loop.last else "" }}
+        {% endfor %}
+        ){
+        memorySegment = com.raylib.jextract.{{ struct_name }}.allocate(arena);
 
         {% for field in fields %}
         {{ field.setter }}({{ field.name }});

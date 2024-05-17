@@ -29,7 +29,7 @@ public class Bunnymark {
         System.out.println("Hello world!");
 
 
-        try (Arena arena = Arena.ofConfined()) {
+        try (Arena arena = Arena.ofConfined()) {  // you dont need to do this, it will create auto arena if you dont, but perhaps its faster if manage our own?
 
                 System.out.println(System.getProperty("java.vm.name"));
                 System.out.println(System.getProperty("java.vm.vendor"));
@@ -42,7 +42,7 @@ public class Bunnymark {
                 initWindow(screenWidth, screenHeight,  "raylib [textures] example - bunnymark");
 
                 // Load bunny texture
-                var texBunny = loadTexture(Util.extractFileFromResources("wabbit_alpha",".png"));
+                var texBunny = loadTexture(arena, Util.extractFileFromResources("wabbit_alpha",".png"));
 
                 Bunny[] bunnies = new Bunny[MAX_BUNNIES];
                 for (int i=0; i < MAX_BUNNIES; i++){
@@ -66,8 +66,8 @@ public class Bunnymark {
                         {
                             if (bunniesCount < MAX_BUNNIES)
                             {
-                                bunnies[bunniesCount].position.x = getMousePosition().getX();
-                                bunnies[bunniesCount].position.y = getMousePosition().getY();
+                                bunnies[bunniesCount].position.x = getMousePosition(arena).getX();
+                                bunnies[bunniesCount].position.y = getMousePosition(arena).getY();
                                 bunnies[bunniesCount].speed.x = (float)(getRandomValue(-250, 250)/60.0f);
                                 bunnies[bunniesCount].speed.y = (float)(getRandomValue(-250, 250)/60.0f);
                                 bunnies[bunniesCount].color = new Color((byte)getRandomValue(50, 240),
