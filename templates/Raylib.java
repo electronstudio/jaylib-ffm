@@ -9,13 +9,7 @@ import static com.raylib.jextract.raylib_h.*;
 public class Raylib{
 
     {% for function in functions %}
-    public static {{ function.java_return_type }} {{ function.java_name }}({% for param in function.params %}
-        {{ param.java_type }} {{ param.name }}{{ ", " if not loop.last else "" }} {% endfor %}
-    ){
-        {% if function.java_return_type != "void" %}return{% endif %} {{ function.name }}({% if function.needs_allocator %}Arena.ofAuto(){% if function.params %}, {% endif %}{% endif %}{% for param in function.params %}
-            {{ param.converter_to_c_type }}{{ ", " if not loop.last else "" }}{% endfor %}
-        ){% if function.java_return_type == "String"%}.getString(0){% endif %};
-    }
+    {% include 'function.java.frag' %}
     {% endfor %}
 
 

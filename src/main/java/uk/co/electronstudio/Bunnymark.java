@@ -67,8 +67,8 @@ public class Bunnymark {
                         {
                             if (bunniesCount < MAX_BUNNIES)
                             {
-                                bunnies[bunniesCount].position.x = Vector2.x(getMousePosition());
-                                bunnies[bunniesCount].position.y = Vector2.y(getMousePosition());
+                                bunnies[bunniesCount].position.x = getMousePosition().getX();
+                                bunnies[bunniesCount].position.y = getMousePosition().getY();
                                 bunnies[bunniesCount].speed.x = (float)(getRandomValue(-250, 250)/60.0f);
                                 bunnies[bunniesCount].speed.y = (float)(getRandomValue(-250, 250)/60.0f);
                                 bunnies[bunniesCount].color = new Color((byte)getRandomValue(50, 240),
@@ -79,8 +79,8 @@ public class Bunnymark {
                         }
                     }
 
-                    float width = Texture.width(texBunny);
-                    float height = Texture.height(texBunny);
+                    float width = texBunny.getWidth();
+                    float height = texBunny.getHeight();
                     // Update bunnies
                     for (int i = 0; i < bunniesCount; i++)
                     {
@@ -102,17 +102,16 @@ public class Bunnymark {
                     //----------------------------------------------------------------------------------
                     beginDrawing();
 
-                    var black = new com.raylib.Color((byte)0,(byte)0,(byte)0,(byte)255);
-                    var white = new com.raylib.Color((byte)255,(byte)255,(byte)255,(byte)255);
-                    clearBackground(white.memorySegment );
+
+                    clearBackground(WHITE);
 
                     for (int i = 0; i < bunniesCount; i++)
                     {
-                        drawTexture(texBunny, (int)bunnies[i].position.x, (int)bunnies[i].position.y, bunnies[i].color.memorySegment);
+                        drawTexture(texBunny, (int)bunnies[i].position.x, (int)bunnies[i].position.y, bunnies[i].color);
                     }
 
-                    drawRectangle(0, 0, screenWidth, 40, black.memorySegment);
-                    drawText("bunnies: "+bunniesCount, 120, 10, 20, white.memorySegment);
+                    drawRectangle(0, 0, screenWidth, 40, BLACK);
+                    drawText("bunnies: "+bunniesCount, 120, 10, 20, WHITE);
 
                     drawFPS(10, 10);
 

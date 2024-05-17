@@ -5,6 +5,7 @@ import com.raylib.*;
 
 
 import static com.raylib.Raylib.*;
+import static com.raylib.jextract.raylib_h.CAMERA_ORBITAL;
 
 
 public class Test {
@@ -14,14 +15,14 @@ public class Test {
 
 //        System.out.println("RLGL TEST: "+rlGetVersion());
 //
-        Camera3D camera = new Camera3D(new Vector3(18,16,18).memorySegment,
-                new Vector3().memorySegment,
-                new Vector3(0,1,0).memorySegment, 45, 0);
+        Camera3D camera = new Camera3D(new Vector3(18,16,18),
+                new Vector3(),
+                new Vector3(0,1,0), 45, 0);
 
-        Image image = new Image(loadImage("heightmap.png"));
-        Texture texture = new Texture(loadTextureFromImage(image.memorySegment));
-        Mesh mesh = new Mesh(genMeshHeightmap(image.memorySegment, new Vector3(16, 8, 16).memorySegment));
-        Model model = new Model(loadModelFromMesh(mesh.memorySegment));
+        Image image = loadImage("heightmap.png");
+        Texture texture = loadTextureFromImage(image);
+        Mesh mesh = genMeshHeightmap(image,new Vector3(16, 8, 16));
+        Model model = loadModelFromMesh(mesh);
 
         var mats = com.raylib.jextract.Model.materials(model.memorySegment);
         System.out.println(mats);
@@ -30,17 +31,17 @@ public class Test {
         com.raylib.jextract.MaterialMap.texture(matmap, texture.memorySegment);
 
         //model.materials.maps().position(0).texture(texture);
-        unloadImage(image.memorySegment);
+        unloadImage(image);
 
         while(!windowShouldClose()){
-            updateCamera(camera.memorySegment, CAMERA_ORBITAL);
+            updateCamera(camera, CAMERA_ORBITAL()); //fixme
             beginDrawing();
-            clearBackground(RAYWHITE.memorySegment);
-            beginMode3D(camera.memorySegment);
-            drawModel(model.memorySegment, new Vector3(-8,0,-8).memorySegment, 1, RED.memorySegment);
+            clearBackground(RAYWHITE);
+            beginMode3D(camera);
+            drawModel(model, new Vector3(-8,0,-8), 1, RED);
             drawGrid(20, 1.0f);
             endMode3D();
-            drawText("Hello world", 190, 200, 20, VIOLET.memorySegment);
+            drawText("Hello world", 190, 200, 20, VIOLET);
             drawFPS(20, 20);
             endDrawing();
         }

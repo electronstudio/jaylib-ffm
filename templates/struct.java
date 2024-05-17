@@ -27,11 +27,15 @@ public class {{ struct_name }} {
 
         {% for field in fields %}
         public {{ field.java_type }} {{ field.getter }}() {
+                {% if field.is_a_struct %}
+                return new {{ field.java_type }}(com.raylib.jextract.{{struct_name}}.{{field.name}}(memorySegment));
+                {% else %}
                 return com.raylib.jextract.{{struct_name}}.{{field.name}}(memorySegment);
+                {% endif %}
     }
 
         public void {{ field.setter }}({{ field.java_type }} value){
-                com.raylib.jextract.{{ struct_name }}.{{ field.name }}(memorySegment, value);
+                com.raylib.jextract.{{ struct_name }}.{{ field.name }}(memorySegment,{{ field.value_to_c_type }});
     }
         {% endfor %}
 

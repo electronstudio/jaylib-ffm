@@ -13,9 +13,11 @@ Not production ready.  Please test, report what doesn't work and add what is mis
 The Java FFI structs are in com.raylib.jextract.* The functions are in com.raylib.jextract.raylib_h.  They are not
 pleasant to use, so we are writing wrappers for them.
 
-The wrapped structs are in com.raylib.*.  They are missing automatic conversion for more complex types.
+The wrapped structs are in com.raylib.*.
 
-The wrapped functions aren't done yet.
+The wrapped functions are in com.raylib.Raylib.
+
+Automatic conversion for pointer types is still TODO.
 
 The official Raylib DLLs are included in the jar.  There isn't one for ARM Linux (Raspberry Pi) but it will attempt
 to load the external file /usr/lib/libraylib.so.
@@ -24,7 +26,7 @@ to load the external file /usr/lib/libraylib.so.
 
     raylib_parser --input /usr/local/include/raylib.h --output raylib_api.json --format JSON
     python3.12 generate.py
-    jextract -l :./libraylib.so --output src/main/java/ --target-package com.raylib.jextract /usr/local/include/raylib.h
+    jextract -l :./libraylib.so --output src/main/java/ --target-package com.raylib.jextract raylib.h
 
 Edit raylib_h.java to change the library loader from "./librarylib.so" to Util.extractDLLforOS()
 
