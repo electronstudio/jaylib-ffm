@@ -105,7 +105,7 @@ for alias in data['aliases']:
     aliases[alias['name']] = alias['type']
     aliases[alias['name']+" *"] = alias['type']+" *"
 
-struct_names_pointers = [x + " *" for x in struct_names]
+# struct_names_pointers = [x + " *" for x in struct_names]
 
 environment = Environment(loader=FileSystemLoader("templates/"))
 template = environment.get_template("struct.java")
@@ -132,4 +132,5 @@ for function in data['functions']:
         print(f"WARNING: skipping function {function['name']} {e}")
 
 with open("src/main/java/com/raylib/Raylib.java", "w") as f:
-    f.write(environment.get_template("Raylib.java").render(functions=functions, struct_names=struct_names))
+    f.write(environment.get_template("Raylib.java").render(functions=functions, struct_names=struct_names, enums=data['enums']))
+

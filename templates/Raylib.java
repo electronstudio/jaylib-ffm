@@ -12,6 +12,9 @@ public class Raylib{
     {% include 'function.java.frag' %}
     {% endfor %}
 
+    {% for enum in enums %}
+    {% include 'enum.java.frag' %}
+    {% endfor %}
 
     public static Color LIGHTGRAY = c(200, 200, 200, 255);
     public static Color GRAY = c(130, 130, 130, 255);

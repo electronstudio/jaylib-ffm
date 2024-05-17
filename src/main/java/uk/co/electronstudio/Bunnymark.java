@@ -1,7 +1,6 @@
 package uk.co.electronstudio;
 import com.raylib.Color;
-import com.raylib.jextract.Texture;
-import com.raylib.jextract.Vector2;
+
 
 import java.lang.foreign.*;
 
