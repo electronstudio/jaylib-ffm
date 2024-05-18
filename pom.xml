@@ -31,7 +31,7 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <mainClass>uk.co.electronstudio.Bunnymark</mainClass>
+                        <mainClass>uk.co.electronstudio.tests.Bunnymark</mainClass>
                     </configuration>
                 </plugin>
 

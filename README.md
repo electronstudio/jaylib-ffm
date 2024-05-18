@@ -40,4 +40,4 @@ Automatic conversion for pointer types is still TODO.  Raygui won't be added unl
     sed -i 's/".\/libraylib.so"/uk.co.electronstudio.Util.extractDLLforOS()/g' src/main/java/com/raylib/jextract/raylib_h_1.java
     python3.12 generate.py
     mvn package
-    java -cp target/jaylib2-ffm-0.0.1.jar uk.co.electronstudio.Bunnymark
+    java -cp target/jaylib2-ffm-0.0.1.jar uk.co.electronstudio.tests.Bunnymark

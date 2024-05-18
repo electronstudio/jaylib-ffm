@@ -1,12 +1,10 @@
-package uk.co.electronstudio;
+package uk.co.electronstudio.tests;
 
-
+import uk.co.electronstudio.Util;
 
 import java.lang.foreign.Arena;
 
 import static com.raylib.Raylib.*;
-
-
 
 public class Benchmark {
     static int WIDTH = 1000;
