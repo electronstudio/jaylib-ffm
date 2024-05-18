@@ -91,6 +91,9 @@ class Function:
 with open("src/main/java/com/raylib/jextract/raylib_h.java", 'r') as file:
     raylib_h = file.read()
 
+with open("src/main/java/com/raylib/jextract/raylib_h_1.java", 'r') as file:
+    raylib_h += file.read()
+
 jf = open('raylib_api.json')
 
 data = json.load(jf)

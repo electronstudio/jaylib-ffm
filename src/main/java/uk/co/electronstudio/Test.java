@@ -6,6 +6,7 @@ import com.raylib.*;
 
 import static com.raylib.Raylib.*;
 import static com.raylib.Raylib.CameraMode.CAMERA_ORBITAL;
+import static com.raylib.jextract.raylib_h.rlGetVersion;
 
 
 public class Test {
@@ -13,7 +14,7 @@ public class Test {
         initWindow(800, 450, "Hello world");
         setTargetFPS(60);
 
-//        System.out.println("RLGL TEST: "+rlGetVersion());
+        System.out.println("RLGL TEST: "+rlGetVersion());
 //
         Camera3D camera = new Camera3D(new Vector3(18,16,18),
                 new Vector3(),

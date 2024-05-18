@@ -25,11 +25,14 @@ to load the external file /usr/lib/libraylib.so.
 
 ## Building
 
-    raylib_parser --input /usr/local/include/raylib.h --output raylib_api.json --format JSON
-    python3.12 generate.py
+    gcc raylib/parser/raylib_parser.c -o raylib_parser
+    ./raylib_parser --input /usr/local/include/raylib.h --output raylib_api.json --format JSON
+    ./raylib_parser --input raylib/src/raymath.h --output raymath_api.json --format JSON --define RMAPI
+    ./raylib_parser --input raylib/src/rlgl.h --output rlgl_api.json --format JSON --truncate "RLGL IMPLEMENTATION"
     jextract -l :./libraylib.so --output src/main/java/ --target-package com.raylib.jextract raylib.h
+    python3.12 generate.py
 
-Edit raylib_h.java to change the library loader from "./librarylib.so" to Util.extractDLLforOS()
+Edit raylib_h_1.java to change the library loader from "./librarylib.so" to Util.extractDLLforOS()
 
     TODO
 
