@@ -27,7 +27,88 @@ Not production ready.  Please test, report what doesn't work and add what is mis
 
 Automatic conversion for pointer types is still TODO.  Raygui won't be added unless there is demand.
 
-## About
+## Example project
+
+Download ([example project](https://github.com/electronstudio/jaylib-ffm-example-project)and import it into IntelliJ or Eclipse to get up and running immediately.
+
+## How to use with Gradle
+
+```
+
+dependencies {
+    implementation 'io.github.electronstudio:jaylib:0.0.1'
+}
+
+```
+
+## How to use with Maven
+
+```
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.electronstudio</groupId>
+            <artifactId>jaylib-ffm</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
+
+```
+
+## How to use from command line
+
+Download the latest `jaylib-ffm.jar` from [releases](https://github.com/electronstudio/jaylib/releases)
+
+Write a demo program, e.g. Demo.java
+
+```java
+import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.CameraMode.CAMERA_ORBITAL;
+import static com.raylib.Raylib.CameraProjection.CAMERA_PERSPECTIVE;
+
+import com.raylib.Camera3D;
+import com.raylib.Vector3;
+
+public class Main {
+    public static void main(String args[]) {
+        initWindow(800, 450, "Demo");
+        setTargetFPS(60);
+        Camera3D camera = new Camera3D(new Vector3(18,16,18),
+                new Vector3(),
+                new Vector3(0,1,0),
+                45, CAMERA_PERSPECTIVE);
+
+        while (!windowShouldClose()) {
+            updateCamera(camera, CAMERA_ORBITAL);
+            beginDrawing();
+            clearBackground(RAYWHITE);
+            beginMode3D(camera);
+            drawGrid(20, 1.0f);
+            endMode3D();
+            drawText("Hello world", 190, 200, 20, VIOLET);
+            drawFPS(20, 20);
+            endDrawing();
+        }
+        closeWindow();
+    }
+}
+```
+
+Compile it:
+
+    javac -cp jaylib-ffm-5.0.0-0.jar Demo.java
+
+Run it:
+
+    java -cp jaylib-ffm-5.0.0-0.jar:. Demo
+
+On MacOS you need this additional option:
+
+    java -XstartOnFirstThread -cp jaylib-ffm-5.0.0-0.jar:. Demo
+
+On weirdy Windows you use semi-colons:
+
+    java -cp jaylib-ffm-5.0.0-0.jar;. Demo
 
 
 ## Building
@@ -41,3 +122,8 @@ Automatic conversion for pointer types is still TODO.  Raygui won't be added unl
     python3.12 generate.py
     mvn package
     java -cp target/jaylib2-ffm-0.0.1.jar uk.co.electronstudio.tests.Bunnymark
+
+## See also
+
+[Megabunny](https://github.com/electronstudio/megabunny) - Raylib benchmarks
+[Jaylib](https://github.com/electronstudio/jaylib) - Java JNI Raylib binding
