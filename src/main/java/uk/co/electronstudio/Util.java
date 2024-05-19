@@ -31,8 +31,14 @@ public class Util {
 
         try {
             Path extractedLoc = Files.createTempFile(null, extension).toAbsolutePath();
-
-            InputStream source = ClassLoader.getSystemResourceAsStream(name + extension);
+            String path = "/" + name + extension;
+            InputStream source = null;
+            try {
+                source = Util.class.getResourceAsStream(path);
+            } catch (Exception e){
+                e.printStackTrace(System.err);
+            }
+            if(source==null) source = ClassLoader.getSystemResourceAsStream(path);
             if(source==null){
                 throw new RuntimeException("Couldn't extract "+name+extension+" from resources");
             }
