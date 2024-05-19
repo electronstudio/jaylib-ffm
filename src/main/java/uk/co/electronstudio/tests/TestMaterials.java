@@ -1,4 +1,4 @@
-package uk.co.electronstudio;
+package uk.co.electronstudio.tests;
 
 
 import com.raylib.*;
@@ -9,7 +9,7 @@ import static com.raylib.Raylib.CameraMode.CAMERA_ORBITAL;
 import static com.raylib.jextract.raylib_h.rlGetVersion;
 
 
-public class Test {
+public class TestMaterials {
     public static void main(String args[]) {
         initWindow(800, 450, "Hello world");
         setTargetFPS(60);
