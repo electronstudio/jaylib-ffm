@@ -28,8 +28,8 @@ def c_type_to_java_type(field_type):
             return "void"
         case "const char *":
             return "String"
-        case "Camera3D *":  # currently always a pointer to one, never an array
-            return "Camera3D"
+        # case "Camera3D *":  # currently always a pointer to one, never an array
+        #     return "Camera3D"
         case "unsigned char *":  # some functions return buffers of untyped bytes, best kept as MemorySegment?
             return "MemorySegment"
         case "const unsigned char *":  # other functions take those buffers as argument
@@ -42,6 +42,8 @@ def c_type_to_java_type(field_type):
             # el
             if field_type in struct_names:
                 return field_type
+            elif field_type in struct_names_pointers:
+                return field_type[:-2]
             else:
                 print(f"WARNING: unknown field_type {field_type}.")
                 return "MemorySegment"
@@ -52,7 +54,7 @@ def converter_to_c_type(field_type, field_name):
         field_type = aliases[field_type]
     if field_type in struct_names:
         return field_name+".memorySegment"
-    elif field_type == "Camera3D *":
+    elif field_type in struct_names_pointers:
         return field_name+".memorySegment"
     else:
         match field_type:
@@ -76,7 +78,7 @@ class Field:
         self.value_to_c_type = converter_to_c_type(type, "value")
         self.needs_local_allocator = type == "const char *"
         self.is_a_struct = type in struct_names
-
+        self.is_a_struct_pointer = type in struct_names_pointers
 
 class Function:
     def __init__(self, name, return_type, description, params=[]):
@@ -113,7 +115,7 @@ for alias in data['aliases']:
     aliases[alias['name']] = alias['type']
     aliases[alias['name']+" *"] = alias['type']+" *"
 
-# struct_names_pointers = [x + " *" for x in struct_names]
+struct_names_pointers = [x + " *" for x in struct_names]
 
 environment = Environment(loader=FileSystemLoader("templates/"))
 template = environment.get_template("struct.java")

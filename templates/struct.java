@@ -4,6 +4,7 @@ package com.raylib;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
+import java.lang.foreign.SegmentAllocator;
 
 /**
  * {{ struct_description }}
@@ -25,7 +26,7 @@ public class {{ struct_name }} {
     /**
      * Construct with your owm memory allocator and fields not initialized
      */
-    public {{ struct_name }}(Arena arena) {
+    public {{ struct_name }}(SegmentAllocator arena) {
         memorySegment = com.raylib.jextract.{{ struct_name }}.allocate(arena);
     }
 
@@ -56,7 +57,7 @@ public class {{ struct_name }} {
      * Construct with your own memory allocator and fields initialized as specified {% for field in fields %}
      * @param  {{ field.name }} {{ field.description }} {% endfor %}
      */
-    public {{ struct_name }}( Arena arena,
+    public {{ struct_name }}( SegmentAllocator arena,
         {% for field in fields %} {{ field.java_type }} {{ field.name }}{{ ", " if not loop.last else "" }}
         {% endfor %}
         ){
@@ -85,13 +86,30 @@ public class {{ struct_name }} {
         return memorySegment.hashCode();
     }
 
+    public {{ struct_name }} getArrayElement(int index){
+        return new {{ struct_name }}(com.raylib.jextract.{{ struct_name }}.asSlice(memorySegment, index));
+    }
+
+    /**
+     * Allocate an array of {{ struct_name }}
+     */
+    public static {{ struct_name }} allocateArray(long elementCount, SegmentAllocator allocator) {
+        return new {{ struct_name }}(com.raylib.jextract.{{struct_name}}.allocateArray(elementCount, allocator));
+    }
+
+    /**
+     * Allocate an array of {{ struct_name }}
+     */
+    public static {{ struct_name }} allocateArray(long elementCount) {
+        return new {{ struct_name }}(com.raylib.jextract.{{struct_name}}.allocateArray(elementCount, Arena.ofAuto()));
+    }
 
         {% for field in fields %}
         /**
          * {{ field.description }}
          */
         public {{ field.java_type }} {{ field.getter }}() {
-                {% if field.is_a_struct %}
+                {% if field.is_a_struct or field.is_a_struct_pointer %}
                 return new {{ field.java_type }}(com.raylib.jextract.{{struct_name}}.{{field.name}}(memorySegment));
                 {% else %}
                 return com.raylib.jextract.{{struct_name}}.{{field.name}}(memorySegment);
@@ -103,6 +121,8 @@ public class {{ struct_name }} {
         public void {{ field.setter }}({{ field.java_type }} value){
                 com.raylib.jextract.{{ struct_name }}.{{ field.name }}(memorySegment,{{ field.value_to_c_type }});
     }
+
+
         {% endfor %}
 
 

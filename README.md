@@ -110,6 +110,24 @@ On weirdy Windows you use semi-colons:
 
     java -cp jaylib-ffm-5.0.0-0.jar;. Demo
 
+## Arrays
+
+C has a problem known as "array to pointer decay".  C will automatically convert an array type and to a pointer
+type. Therefore the computer can't tell
+if a function parameter is an array of many items or a pointer to a single item.
+I don't know if modern C has solved this, but Raylib certainly hasn't.  The info isn't in raylib_api.json.
+You just have to read the docs for each
+function to find out which it is.
+
+So sometimes you will get a Java object that may represent one struct, or may represent an array of structs.
+You'll need to check the Raylib docs or the Javadoc for the function to know which it has given you.
+
+If it's an array, you can use the getArrayElement() method to access the other structs.  To create a new array
+there is allocateArray() method.
+
+(I suppose we could provide List-like wrappers but to actually make them safe would require working out every
+function that uses arrays and what parameter it uses to store the size of the array. Nice to have but a luxury
+that users of C Raylib don't have, and requiring manual maintance work, so out of scope for now.)
 
 ## Building
 

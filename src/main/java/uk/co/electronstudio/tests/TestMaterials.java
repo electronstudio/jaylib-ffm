@@ -24,14 +24,10 @@ public class TestMaterials {
         Texture texture = loadTextureFromImage(image);
         Mesh mesh = genMeshHeightmap(image,new Vector3(16, 8, 16));
         Model model = loadModelFromMesh(mesh);
+        var matmap = model.getMaterials().getArrayElement(0).getMaps().getArrayElement(0);
+        matmap.setTexture(texture);
 
-        var mats = com.raylib.jextract.Model.materials(model.memorySegment);
-        System.out.println(mats);
-        var maps = com.raylib.jextract.Material.maps(mats);
-        var matmap = com.raylib.jextract.MaterialMap.asSlice(maps, 0);
-        com.raylib.jextract.MaterialMap.texture(matmap, texture.memorySegment);
 
-        //model.materials.maps().position(0).texture(texture);
         unloadImage(image);
 
         while(!windowShouldClose()){
