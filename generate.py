@@ -5,6 +5,7 @@ from jinja2 import Environment, FileSystemLoader
 # Image * is an array only once, SetWindowIcons.
 # void * is usually a buffer, could convert?  sometimes it is a pointer to a pixel in a buffer etc
 
+LEGACY_NAMES=False
 
 def c_type_to_java_type(field_type):
     match field_type:
@@ -73,6 +74,9 @@ class Field:
         self.description = description
         self.getter = "get" + name[0].upper() + name[1:]
         self.setter = "set" + name[0].upper() + name[1:]
+        if LEGACY_NAMES:
+            self.getter = name
+            self.setter = name
         self.java_type = c_type_to_java_type(type)
         self.converter_to_c_type = converter_to_c_type(type, name)
         self.value_to_c_type = converter_to_c_type(type, "value")
@@ -84,6 +88,8 @@ class Function:
     def __init__(self, name, return_type, description, params=[]):
         self.name = name
         self.java_name = name[0].lower() + name[1:]
+        if LEGACY_NAMES:
+            self.java_name = name
         if return_type in aliases:
             return_type = aliases[return_type]
         self.return_type = return_type

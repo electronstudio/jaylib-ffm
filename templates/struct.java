@@ -118,8 +118,9 @@ public class {{ struct_name }} {
         /**
          * {{ field.description }}
          */
-        public void {{ field.setter }}({{ field.java_type }} value){
+        public {{struct_name}} {{ field.setter }}({{ field.java_type }} value){
                 com.raylib.jextract.{{ struct_name }}.{{ field.name }}(memorySegment,{{ field.value_to_c_type }});
+                return this;
     }
 
 
