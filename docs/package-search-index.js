@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.raylib"},{"l":"com.raylib.jextract"},{"l":"uk.co.electronstudio"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.raylib"},{"l":"com.raylib.jextract"},{"l":"uk.co.electronstudio"},{"l":"uk.co.electronstudio.tests"}];updateSearchResults();

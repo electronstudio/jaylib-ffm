@@ -6,7 +6,7 @@
 
     <groupId>io.github.electronstudio</groupId>
     <artifactId>jaylib-ffm</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
 
     <name>Jaylib FFM</name>
 
