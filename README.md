@@ -25,7 +25,9 @@ to load the external file /usr/lib/libraylib.so.
 
 Not production ready.  Please test, report what doesn't work and add what is missing.
 
-Automatic conversion for pointer types is still TODO.  Raygui won't be added unless there is demand.
+Most C types are now wrapped as Java types.  If a function returns a MemorySegment it means that type hasn't been wrapped.
+This may be because there is no Java equivalent that makes sense, but if you think otherwise report it and I might
+add it.
 
 ## Example project
 
