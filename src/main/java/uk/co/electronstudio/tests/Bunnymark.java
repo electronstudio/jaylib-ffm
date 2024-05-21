@@ -27,8 +27,6 @@ public class Bunnymark {
 
 
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-
 
         try (Arena arena = Arena.ofConfined()) {  // you dont need to do this, it will create auto arena if you dont, but perhaps its faster if manage our own?
 

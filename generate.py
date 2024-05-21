@@ -2,6 +2,9 @@ import json
 
 from jinja2 import Environment, FileSystemLoader
 
+# Image * is an array only once, SetWindowIcons.
+# void * is usually a buffer, could convert?  sometimes it is a pointer to a pixel in a buffer etc
+
 
 def c_type_to_java_type(field_type):
     match field_type:
@@ -54,7 +57,7 @@ def converter_to_c_type(field_type, field_name):
     else:
         match field_type:
             case "const char *":
-                return "Arena.ofAuto().allocateFrom(" + field_name + ")"
+                return "localArena.allocateFrom(" + field_name + ")"
             case _:
                 return field_name
 
@@ -71,6 +74,7 @@ class Field:
         self.java_type = c_type_to_java_type(type)
         self.converter_to_c_type = converter_to_c_type(type, name)
         self.value_to_c_type = converter_to_c_type(type, "value")
+        self.needs_local_allocator = type == "const char *"
         self.is_a_struct = type in struct_names
 
 
@@ -86,6 +90,7 @@ class Function:
         self.params = params
         self.description = description
         self.needs_allocator = f"public static MemorySegment {name}(SegmentAllocator allocator" in raylib_h
+        self.needs_local_allocator = any(x.needs_local_allocator for x in params)
 
 
 with open("src/main/java/com/raylib/jextract/raylib_h.java", 'r') as file:
