@@ -32,6 +32,16 @@ public class Raylib{
         return ByteBuffer.allocateDirect((int)JAVA_FLOAT.byteSize()*size).order(ByteOrder.nativeOrder()).asFloatBuffer();
     }
 
+    /**
+     * Any ByteBuffers you create *MUST* be direct allocation and native order.  Use this method to ensure that.
+     * @param size
+     * @return
+     */
+    public static ByteBuffer createByteBuffer(int size){
+        return ByteBuffer.allocateDirect(size).order(ByteOrder.nativeOrder());
+    }
+
+
     {% for function in functions %}
     {% include 'function.java.frag' %}
     {% endfor %}

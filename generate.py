@@ -35,10 +35,12 @@ def c_type_to_java_type(field_type):
             return "String"
         # case "Camera3D *":  # currently always a pointer to one, never an array
         #     return "Camera3D"
-        case "unsigned char *":  # some functions return buffers of untyped bytes, best kept as MemorySegment?
-            return "MemorySegment"
-        case "const unsigned char *":  # other functions take those buffers as argument
-            return "MemorySegment"
+        case "unsigned char *":
+            return "java.nio.ByteBuffer"
+        case "const unsigned char *":
+            return "java.nio.ByteBuffer"
+        case "char *":
+            return "java.nio.ByteBuffer"
         case "...":
             raise Exception("dont support varargs")
         case _:
@@ -54,7 +56,7 @@ def c_type_to_java_type(field_type):
                 return "MemorySegment"
 
 
-def converter_to_c_type(field_type, field_name):
+def converter_to_c_type(field_type, field_name):  # could we do this on javatype?
     if field_type in aliases:
         field_type = aliases[field_type]
     if field_type in struct_names:
@@ -69,6 +71,12 @@ def converter_to_c_type(field_type, field_name):
                 return "MemorySegment.ofBuffer(" + field_name + ")"
             case "int *":
                 return "MemorySegment.ofBuffer(" + field_name + ")"
+            case "char *":
+                return "MemorySegment.ofBuffer(" + field_name + ")"
+            case "unsigned char *":
+                return "MemorySegment.ofBuffer(" + field_name + ")"
+            case "const unsigned char *":
+                return "MemorySegment.ofBuffer(" + field_name + ")"
             case _:
                 return field_name
 
@@ -80,6 +88,8 @@ def converter_from_memorysegment(java_type):
             return ".asByteBuffer().order(ByteOrder.nativeOrder()).asFloatBuffer()"
         case "java.nio.IntBuffer":
             return ".asByteBuffer().order(ByteOrder.nativeOrder()).asIntBuffer()"
+        case "java.nio.ByteBuffer":
+            return ".asByteBuffer().order(ByteOrder.nativeOrder())"
         case _:
             return ""
 
