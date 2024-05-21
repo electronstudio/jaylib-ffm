@@ -25,6 +25,8 @@ def c_type_to_java_type(field_type):
             return "int"
         case "int":
             return "int"
+        case "int *":
+            return "java.nio.IntBuffer"
         case "long":
             return "long"
         case "void":
@@ -65,6 +67,8 @@ def converter_to_c_type(field_type, field_name):
                 return "localArena.allocateFrom(" + field_name + ")"
             case "float *":
                 return "MemorySegment.ofBuffer(" + field_name + ")"
+            case "int *":
+                return "MemorySegment.ofBuffer(" + field_name + ")"
             case _:
                 return field_name
 
@@ -73,7 +77,9 @@ def converter_from_memorysegment(java_type):
         case "String":
             return ".getString(0)"
         case "java.nio.FloatBuffer":
-            return ".asByteBuffer().asFloatBuffer()"
+            return ".asByteBuffer().order(ByteOrder.nativeOrder()).asFloatBuffer()"
+        case "java.nio.IntBuffer":
+            return ".asByteBuffer().order(ByteOrder.nativeOrder()).asIntBuffer()"
         case _:
             return ""
 

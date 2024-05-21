@@ -4,9 +4,15 @@ package uk.co.electronstudio.tests;
 import com.raylib.*;
 
 
+import java.lang.foreign.MemorySegment;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
 import static com.raylib.Raylib.*;
 import static com.raylib.Raylib.CameraMode.CAMERA_ORBITAL;
 import static com.raylib.jextract.raylib_h.rlGetVersion;
+import static java.lang.foreign.ValueLayout.JAVA_INT;
 
 
 public class TestMaterials {
@@ -15,7 +21,17 @@ public class TestMaterials {
         setTargetFPS(60);
 
         System.out.println("RLGL TEST: "+rlGetVersion());
-//
+        System.out.println(""+JAVA_INT.byteSize());
+        var fb =FloatBuffer.allocate(1);
+        var bb = ByteBuffer.allocateDirect((int)JAVA_INT.byteSize()).order(ByteOrder.nativeOrder()).asIntBuffer();
+        var ba = new byte[4];
+        //var bb = ByteBuffer.wrap(ba);
+
+        var ib = createIntBuffer(1);
+        loadFileData("heightmap.png",  ib);
+
+        System.out.printf("filesize "+ib.get(0));
+
         Camera3D camera = new Camera3D(new Vector3(18,16,18),
                 new Vector3(),
                 new Vector3(0,1,0), 45, 0);

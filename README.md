@@ -129,6 +129,9 @@ there is allocateArray() method.
 function that uses arrays and what parameter it uses to store the size of the array. Nice to have but a luxury
 that users of C Raylib don't have, and requiring manual maintance work, so out of scope for now.)
 
+Arrays of ints and floats are wrapped as IntBuffer and FloatBuffer.  Note if you create your own you should use
+Raylib.createIntBuffer(1) to ensure you create a direct, native buffer.
+
 ## Building
 
     gcc raylib/parser/raylib_parser.c -o raylib_parser

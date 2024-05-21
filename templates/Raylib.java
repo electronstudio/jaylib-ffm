@@ -3,10 +3,34 @@ package com.raylib;
 
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.Arena;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 import static com.raylib.jextract.raylib_h.*;
+import static java.lang.foreign.ValueLayout.JAVA_FLOAT;
+import static java.lang.foreign.ValueLayout.JAVA_INT;
 
 public class Raylib{
+
+    /**
+     * Any IntBuffers you create *MUST* be direct allocation and native order.  Use this method to ensure that.
+     * @param size
+     * @return
+     */
+    public static IntBuffer createIntBuffer(int size){
+        return ByteBuffer.allocateDirect((int)JAVA_INT.byteSize()*size).order(ByteOrder.nativeOrder()).asIntBuffer();
+    }
+
+    /**
+     * Any FloatBuffers you create *MUST* be direct allocation and native order.  Use this method to ensure that.
+     * @param size
+     * @return
+     */
+    public static FloatBuffer createFloatBuffer(int size){
+        return ByteBuffer.allocateDirect((int)JAVA_FLOAT.byteSize()*size).order(ByteOrder.nativeOrder()).asFloatBuffer();
+    }
 
     {% for function in functions %}
     {% include 'function.java.frag' %}
