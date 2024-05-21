@@ -67,6 +67,24 @@ public class {{ struct_name }} {
         {% endfor %}
     }
 
+    /**
+     * Equality is tested on basis of both wrapper objects must refer to same native memory location to be considered equal
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof {{ struct_name }}))
+            return false;
+        {{ struct_name }} other = ({{ struct_name }})o;
+        return this.memorySegment.equals(other.memorySegment);
+    }
+
+    @Override
+    public int hashCode() {
+        return memorySegment.hashCode();
+    }
+
 
         {% for field in fields %}
         /**
