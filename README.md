@@ -59,7 +59,7 @@ dependencies {
 
 ## How to use from command line
 
-Download the latest `jaylib-ffm.jar` from [releases](https://github.com/electronstudio/jaylib/releases)
+Download the latest `jaylib-ffm.jar` from [releases](https://github.com/electronstudio/jaylib-ffm/releases)
 
 Write a demo program, e.g. Demo.java
 
