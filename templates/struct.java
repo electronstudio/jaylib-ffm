@@ -112,7 +112,7 @@ public class {{ struct_name }} {
                 {% if field.is_a_struct or field.is_a_struct_pointer %}
                 return new {{ field.java_type }}(com.raylib.jextract.{{struct_name}}.{{field.name}}(memorySegment));
                 {% else %}
-                return com.raylib.jextract.{{struct_name}}.{{field.name}}(memorySegment);
+                return com.raylib.jextract.{{struct_name}}.{{field.name}}(memorySegment){{field.converter_from_memorysegment}};
                 {% endif %}
     }
         /**

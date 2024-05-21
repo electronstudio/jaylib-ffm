@@ -17,6 +17,8 @@ def c_type_to_java_type(field_type):
             return "byte"
         case "float":
             return "float"
+        case "float *":
+            return "java.nio.FloatBuffer"
         case "double":
             return "double"
         case "unsigned int":
@@ -61,8 +63,19 @@ def converter_to_c_type(field_type, field_name):
         match field_type:
             case "const char *":
                 return "localArena.allocateFrom(" + field_name + ")"
+            case "float *":
+                return "MemorySegment.ofBuffer(" + field_name + ")"
             case _:
                 return field_name
+
+def converter_from_memorysegment(java_type):
+    match java_type:
+        case "String":
+            return ".getString(0)"
+        case "java.nio.FloatBuffer":
+            return ".asByteBuffer().asFloatBuffer()"
+        case _:
+            return ""
 
 
 class Field:
@@ -83,6 +96,7 @@ class Field:
         self.needs_local_allocator = type == "const char *"
         self.is_a_struct = type in struct_names
         self.is_a_struct_pointer = type in struct_names_pointers
+        self.converter_from_memorysegment = converter_from_memorysegment(self.java_type)
 
 class Function:
     def __init__(self, name, return_type, description, params=[]):
@@ -99,6 +113,7 @@ class Function:
         self.description = description
         self.needs_allocator = f"public static MemorySegment {name}(SegmentAllocator allocator" in raylib_h
         self.needs_local_allocator = any(x.needs_local_allocator for x in params)
+        self.converter_from_memorysegment = converter_from_memorysegment(self.java_return_type)
 
 
 with open("src/main/java/com/raylib/jextract/raylib_h.java", 'r') as file:
