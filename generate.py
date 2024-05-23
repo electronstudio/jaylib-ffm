@@ -19,6 +19,10 @@ def c_type_to_java_type(field_type):
             return "float"
         case "float *":
             return "java.nio.FloatBuffer"
+        case "float[2]":  # TODO test if arrays are working, byte order might be wrong
+            return "float[]"
+        case "float[4]":
+            return "float[]"
         case "double":
             return "double"
         case "unsigned int":
@@ -77,6 +81,10 @@ def converter_to_c_type(field_type, field_name):  # could we do this on javatype
                 return "MemorySegment.ofBuffer(" + field_name + ")"
             case "const unsigned char *":
                 return "MemorySegment.ofBuffer(" + field_name + ")"
+            case "float[2]":
+                return "Arena.ofAuto().allocateFrom(ValueLayout.JAVA_FLOAT, " + field_name + ")"  # FIXME localArena would better
+            case "float[4]":
+                return "Arena.ofAuto().allocateFrom(ValueLayout.JAVA_FLOAT, " + field_name + ")"  # FIXME localArena would better
             case _:
                 return field_name
 
@@ -90,6 +98,8 @@ def converter_from_memorysegment(java_type):
             return ".reinterpret(Integer.MAX_VALUE/2).asByteBuffer().order(ByteOrder.nativeOrder()).asIntBuffer()"
         case "java.nio.ByteBuffer":
             return ".reinterpret(Integer.MAX_VALUE/2).asByteBuffer().order(ByteOrder.nativeOrder())"
+        case "float[]":
+            return ".toArray(ValueLayout.JAVA_FLOAT)"
         case _:
             return ""
 

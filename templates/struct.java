@@ -6,6 +6,7 @@ import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
 import java.nio.ByteOrder;
+import java.lang.foreign.ValueLayout;
 
 /**
  * {{ struct_description }}
