@@ -39,8 +39,8 @@ def c_type_to_java_type(field_type):
             return "java.nio.ByteBuffer"
         case "const unsigned char *":
             return "java.nio.ByteBuffer"
-        case "char *":
-            return "java.nio.ByteBuffer"
+        case "char *":                      # C char is not same as Java char, so we just use bytes
+            return "java.nio.ByteBuffer"    # We could convert to String in SOME cases, but honestly noone should be using Raylib for string manipulation
         case "...":
             raise Exception("dont support varargs")
         case _:
@@ -85,11 +85,11 @@ def converter_from_memorysegment(java_type):
         case "String":
             return ".getString(0)"
         case "java.nio.FloatBuffer":
-            return ".asByteBuffer().order(ByteOrder.nativeOrder()).asFloatBuffer()"
+            return ".reinterpret(Integer.MAX_VALUE/2).asByteBuffer().order(ByteOrder.nativeOrder()).asFloatBuffer()"
         case "java.nio.IntBuffer":
-            return ".asByteBuffer().order(ByteOrder.nativeOrder()).asIntBuffer()"
+            return ".reinterpret(Integer.MAX_VALUE/2).asByteBuffer().order(ByteOrder.nativeOrder()).asIntBuffer()"
         case "java.nio.ByteBuffer":
-            return ".asByteBuffer().order(ByteOrder.nativeOrder())"
+            return ".reinterpret(Integer.MAX_VALUE/2).asByteBuffer().order(ByteOrder.nativeOrder())"
         case _:
             return ""
 
@@ -103,9 +103,6 @@ class Field:
         self.description = description
         self.getter = "get" + name[0].upper() + name[1:]
         self.setter = "set" + name[0].upper() + name[1:]
-        if LEGACY_NAMES:
-            self.getter = name
-            self.setter = name
         self.java_type = c_type_to_java_type(type)
         self.converter_to_c_type = converter_to_c_type(type, name)
         self.value_to_c_type = converter_to_c_type(type, "value")

@@ -8,6 +8,7 @@ import java.lang.foreign.MemorySegment;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.charset.StandardCharsets;
 
 import static com.raylib.Raylib.*;
 import static com.raylib.Raylib.CameraMode.CAMERA_ORBITAL;
@@ -28,9 +29,17 @@ public class TestMaterials {
         //var bb = ByteBuffer.wrap(ba);
 
         var ib = createIntBuffer(1);
-        loadFileData("heightmap.png",  ib);
+//        var seg = loadFileData("heightmap.png",  ib);
+//        System.out.println(seg.byteSize());
+//        var seg2 = seg.reinterpret(ib.get(0));
+//        var bb2 =seg2.asByteBuffer();
+//        System.out.println(bb2.get(0));
 
         System.out.printf("filesize "+ib.get(0));
+
+        var txt = loadFileText("README.md");
+        txt.limit(100);
+        System.out.println(StandardCharsets.UTF_8.decode(txt).toString());
 
         Camera3D camera = new Camera3D(new Vector3(18,16,18),
                 new Vector3(),
@@ -40,7 +49,7 @@ public class TestMaterials {
         Texture texture = loadTextureFromImage(image);
         Mesh mesh = genMeshHeightmap(image,new Vector3(16, 8, 16));
         Model model = loadModelFromMesh(mesh);
-        var matmap = model.getMaterials().getArrayElement(0).getMaps().getArrayElement(0);
+        var matmap = model.getMaterials().getArrayElement(0).maps().getArrayElement(0);
         matmap.setTexture(texture);
 
 
