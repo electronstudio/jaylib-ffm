@@ -119,10 +119,28 @@ public class {{ struct_name }} {
         /**
          * {{ field.description }}
          */
-        public {{struct_name}} {{ field.setter }}({{ field.java_type }} value){
+        public void {{ field.setter }}({{ field.java_type }} value){
+                com.raylib.jextract.{{ struct_name }}.{{ field.name }}(memorySegment,{{ field.value_to_c_type }});
+    }
+
+        /**
+         * {{ field.description }}
+         */
+        public {{ field.java_type }} {{ field.name }}() {
+                {% if field.is_a_struct or field.is_a_struct_pointer %}
+                return new {{ field.java_type }}(com.raylib.jextract.{{struct_name}}.{{field.name}}(memorySegment));
+                {% else %}
+                return com.raylib.jextract.{{struct_name}}.{{field.name}}(memorySegment){{field.converter_from_memorysegment}};
+                {% endif %}
+                }
+        /**
+         * {{ field.description }}
+         */
+        public {{struct_name}} {{ field.name }}({{ field.java_type }} value){
                 com.raylib.jextract.{{ struct_name }}.{{ field.name }}(memorySegment,{{ field.value_to_c_type }});
                 return this;
-    }
+                }
+
 
 
         {% endfor %}
