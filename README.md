@@ -1,4 +1,4 @@
-# Jaylib-FFM - Java FFM binding for Raylib 5.0, RLGL, Raymath
+# Jaylib-FFM - Java FFM binding for Raylib 5.5, RLGL, Raymath
 
 Jaylib-FFM is a [Java FFM](https://docs.oracle.com/en/java/javase/22/core/foreign-function-and-memory-api.html) ('Project Panama')
 binding for Raylib.  This makes it faster than any binding that uses older tech, even JNI as used by Jaylib.
@@ -38,7 +38,7 @@ Download ([example project](https://github.com/electronstudio/jaylib-ffm-example
 ```
 
 dependencies {
-    implementation 'io.github.electronstudio:jaylib:0.0.3'
+    implementation 'io.github.electronstudio:jaylib:5.5.0-0'
 }
 
 ```
@@ -51,10 +51,18 @@ dependencies {
         <dependency>
             <groupId>io.github.electronstudio</groupId>
             <artifactId>jaylib-ffm</artifactId>
-            <version>0.0.3</version>
+            <version>5.5.0-0</version>
         </dependency>
     </dependencies>
 
+```
+
+## If your project is modular
+
+```
+module com.example {
+    requires io.github.electronstudio.jaylib.ffm;
+}
 ```
 
 ## How to use from command line
@@ -98,19 +106,19 @@ public class Main {
 
 Compile it:
 
-    javac -cp jaylib-ffm-0.0.3.jar Demo.java
+    javac -cp jaylib-ffm-5.5.0-0.jar Demo.java
 
 Run it:
 
-    java -cp jaylib-ffm-0.0.3.jar:. Demo
+    java -cp jaylib-ffm-5.5.0-0.jar:. Demo
 
 On MacOS you need this additional option:
 
-    java -XstartOnFirstThread -cp jaylib-ffm-0.0.3.jar:. Demo
+    java -XstartOnFirstThread -cp jaylib-ffm-5.5.0-0.jar:. Demo
 
 On weirdy Windows you use semi-colons:
 
-    java -cp jaylib-ffm-0.0.3.jar;. Demo
+    java -cp jaylib-ffm-5.5.0-0.jar;. Demo
 
 ## Arrays
 
@@ -144,7 +152,7 @@ Raylib.createIntBuffer(1) to ensure you create a direct, native buffer.
     sed -i 's/".\/libraylib.so"/uk.co.electronstudio.Util.extractDLLforOS()/g' src/main/java/com/raylib/jextract/raylib_h_1.java
     python3.12 generate.py
     mvn package
-    java -cp target/jaylib2-ffm-0.0.1.jar uk.co.electronstudio.tests.Bunnymark
+    java -cp target/jaylib2-ffm-5.5.0-0.jar uk.co.electronstudio.tests.Bunnymark
 
 ## See also
 
