@@ -152,7 +152,7 @@ Raylib.createIntBuffer(1) to ensure you create a direct, native buffer.
     sed -i 's/".\/libraylib.so"/uk.co.electronstudio.Util.extractDLLforOS()/g' src/main/java/com/raylib/jextract/raylib_h_1.java
     python3.12 generate.py
     mvn package
-    java -cp target/jaylib2-ffm-5.5.0-0.jar uk.co.electronstudio.tests.Bunnymark
+    java -cp target/jaylib-ffm-5.5.0-0.jar uk.co.electronstudio.tests.Bunnymark
 
 ## See also
 
