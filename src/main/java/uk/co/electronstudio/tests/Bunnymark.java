@@ -1,12 +1,13 @@
 package uk.co.electronstudio.tests;
 import com.raylib.Color;
+import com.raylib.Vector3;
 import uk.co.electronstudio.Util;
 
 
 import java.lang.foreign.*;
 
 import static com.raylib.Raylib.*;
-
+//import static com.raylib.jextract.raylib_h.*;
 
 
 
@@ -28,11 +29,16 @@ public class Bunnymark {
 
     public static void main(String[] args) {
 
+
+
         try (Arena arena = Arena.ofConfined()) {  // you dont need to do this, it will create auto arena if you dont, but perhaps its faster if manage our own?
 
             System.out.println(System.getProperty("java.vm.name"));
             System.out.println(System.getProperty("java.vm.vendor"));
             System.out.println(System.getProperty("java.vm.version"));
+
+
+            vector3Normalize(new Vector3());
             // Initialization
             //--------------------------------------------------------------------------------------
             int screenWidth = 1920;

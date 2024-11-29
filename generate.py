@@ -47,6 +47,8 @@ def c_type_to_java_type(field_type):
             return "java.nio.ByteBuffer"    # We could convert to String in SOME cases, but honestly noone should be using Raylib for string manipulation
         case "...":
             raise Exception("dont support varargs")
+        case "#endif":
+            raise Exception("bug in raylib_parser")
         case _:
             # if field_type in struct_names_pointers:
             #     return field_type[:-2]
@@ -145,17 +147,22 @@ with open("src/main/java/com/raylib/jextract/raylib_h.java", 'r') as file:
 with open("src/main/java/com/raylib/jextract/raylib_h_1.java", 'r') as file:
     raylib_h += file.read()
 
-jf = open('raylib_api.json')
 
-data = json.load(jf)
+raylib_data = json.load(open('raylib_api.json'))
+raymath_data = json.load(open('raymath_api.json'))
+rlgl_data = json.load(open('rlgl_api.json'))
+
+# bug in raylib_parser incorrectly parses rlVertexBuffer, so skip it
+rlgl_data['structs'] = [obj for obj in rlgl_data['structs'] if obj.get('name') != 'rlVertexBuffer']
+
 
 struct_names = []
 aliases = {}
 
-for struct in data['structs']:
+for struct in raylib_data['structs'] + rlgl_data['structs']:
     struct_names.append(struct['name'])
 
-for alias in data['aliases']:
+for alias in raylib_data['aliases']:
     aliases[alias['name']] = alias['type']
     aliases[alias['name']+" *"] = alias['type']+" *"
 
@@ -164,7 +171,7 @@ struct_names_pointers = [x + " *" for x in struct_names]
 environment = Environment(loader=FileSystemLoader("templates/"))
 template = environment.get_template("struct.java")
 
-for struct in data['structs']:
+for struct in raylib_data['structs']+ rlgl_data['structs']:
     struct_name = struct['name']
     struct_description = struct['description']
     fields = []
@@ -176,9 +183,11 @@ for struct in data['structs']:
         f.write(content)
 
 functions = []
-for function in data['functions']:
+for function in raylib_data['functions'] + raymath_data['functions'] + rlgl_data['functions']:
     params = []
     try:
+        if function['name'] not in raylib_h:
+            raise RuntimeError("function not found in raylib_h")
         if 'params' in function:
             for param in function['params']:
                 params.append(Field(param['name'], param['type'], ""))
@@ -186,6 +195,8 @@ for function in data['functions']:
     except Exception as e:
         print(f"WARNING: skipping function {function['name']} because {e}")
 
+enums = raylib_data['enums'] + rlgl_data['enums']
+
 with open("src/main/java/com/raylib/Raylib.java", "w") as f:
-    f.write(environment.get_template("Raylib.java").render(functions=functions, struct_names=struct_names, enums=data['enums']))
+    f.write(environment.get_template("Raylib.java").render(functions=functions, struct_names=struct_names, enums=enums))
 
