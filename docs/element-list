@@ -1,4 +1,3 @@
+module:io.github.electronstudio.jaylib.ffm
 com.raylib
 com.raylib.jextract
-uk.co.electronstudio
-uk.co.electronstudio.tests
