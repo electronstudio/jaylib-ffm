@@ -21,6 +21,8 @@ public class TestMaterials {
         initWindow(800, 450, "Hello world");
         setTargetFPS(60);
 
+        loadFontEx("font.ttf", 10, null, 0);
+
         System.out.println("RLGL TEST: "+rlGetVersion());
         System.out.println(""+JAVA_INT.byteSize());
         var fb =FloatBuffer.allocate(1);

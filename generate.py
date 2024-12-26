@@ -50,9 +50,6 @@ def c_type_to_java_type(field_type):
         case "#endif":
             raise Exception("bug in raylib_parser")
         case _:
-            # if field_type in struct_names_pointers:
-            #     return field_type[:-2]
-            # el
             if field_type in struct_names:
                 return field_type
             elif field_type in struct_names_pointers:
@@ -75,8 +72,11 @@ def converter_to_c_type(field_type, field_name):  # could we do this on javatype
                 return "localArena.allocateFrom(" + field_name + ")"
             case "float *":
                 return "MemorySegment.ofBuffer(" + field_name + ")"
-            case "int *":
-                return "MemorySegment.ofBuffer(" + field_name + ")"
+            case "int *": # LoadFontEx will accept a null pointer so we need to provide one
+                # TODO: check if any other functions require this
+                # TODO: limit check to only functions that require,
+                # TODO: provide an overloaded method that takes no parameter rather a null
+                return field_name + " == null ? MemorySegment.NULL : MemorySegment.ofBuffer(" + field_name + ")"
             case "char *":
                 return "MemorySegment.ofBuffer(" + field_name + ")"
             case "unsigned char *":
