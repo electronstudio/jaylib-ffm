@@ -38,7 +38,7 @@ Download ([example project](https://github.com/electronstudio/jaylib-ffm-example
 ```
 
 dependencies {
-    implementation 'io.github.electronstudio:jaylib:5.5.0-0'
+    implementation 'io.github.electronstudio:jaylib-ffm:5.5.0-2'
 }
 
 ```
@@ -51,7 +51,7 @@ dependencies {
         <dependency>
             <groupId>io.github.electronstudio</groupId>
             <artifactId>jaylib-ffm</artifactId>
-            <version>5.5.0-0</version>
+            <version>5.5.0-2</version>
         </dependency>
     </dependencies>
 
@@ -106,19 +106,19 @@ public class Main {
 
 Compile it:
 
-    javac -cp jaylib-ffm-5.5.0-0.jar Demo.java
+    javac -cp jaylib-ffm-5.5.0-2.jar Demo.java
 
 Run it:
 
-    java -cp jaylib-ffm-5.5.0-0.jar:. Demo
+    java -cp jaylib-ffm-5.5.0-2.jar:. Demo
 
 On MacOS you need this additional option:
 
-    java -XstartOnFirstThread -cp jaylib-ffm-5.5.0-0.jar:. Demo
+    java -XstartOnFirstThread -cp jaylib-ffm-5.5.0-2.jar:. Demo
 
 On weirdy Windows you use semi-colons:
 
-    java -cp jaylib-ffm-5.5.0-0.jar;. Demo
+    java -cp jaylib-ffm-5.5.0-2.jar;. Demo
 
 ## Arrays
 
